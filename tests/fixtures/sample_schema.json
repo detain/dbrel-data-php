@@ -1,0 +1,104 @@
+{
+    "_metadata": {
+        "version": "1.0.0",
+        "description": "Sample relationship schema for testing",
+        "databases": {
+            "my": "MyAdmin primary database",
+            "kayako_v4": "Kayako ticketing system",
+            "pdns": "PowerDNS"
+        }
+    },
+    "modules": {
+        "accounts": {
+            "table": "accounts",
+            "prefix": "account_",
+            "title": "Accounts"
+        },
+        "vps": {
+            "table": "vps",
+            "prefix": "vps_",
+            "title": "Virtual Private Servers"
+        },
+        "servers": {
+            "table": "servers",
+            "prefix": "server_",
+            "title": "Servers"
+        }
+    },
+    "table_to_module": {
+        "accounts": "accounts",
+        "vps": "vps",
+        "servers": "servers"
+    },
+    "virtual_tables": {
+        "accounts_ext": {
+            "source_table": "accounts",
+            "pivot_column": "account_extra"
+        }
+    },
+    "relationships": [
+        {
+            "source_db": "my",
+            "source_table": "vps",
+            "source_field": "vps_custid",
+            "target_db": "my",
+            "target_table": "accounts",
+            "target_field": "account_id",
+            "type": "direct",
+            "cardinality": "N:1",
+            "label": "VPS belongs to Account"
+        },
+        {
+            "source_db": "my",
+            "source_table": "vps",
+            "source_field": "vps_server",
+            "target_db": "my",
+            "target_table": "servers",
+            "target_field": "server_id",
+            "type": "code_join",
+            "cardinality": "N:1",
+            "label": "VPS runs on Server"
+        },
+        {
+            "source_db": "my",
+            "source_table": "servers",
+            "source_field": "server_tags",
+            "target_db": "my",
+            "target_table": "tags",
+            "target_field": "tag_id",
+            "type": "find_in_set",
+            "cardinality": "N:M",
+            "label": "Server has Tags"
+        },
+        {
+            "source_db": "my",
+            "source_table": "accounts",
+            "source_field": "account_email",
+            "target_db": "kayako_v4",
+            "target_table": "swusers",
+            "target_field": "email",
+            "type": "cross_db",
+            "cardinality": "1:N",
+            "label": "Account to Kayako User"
+        },
+        {
+            "source_db": "my",
+            "source_table": "owners",
+            "source_field": "owner_ref",
+            "target_db": "my",
+            "target_table": "(vps|servers|websites)",
+            "target_field": "id",
+            "type": "direct",
+            "cardinality": "1:N",
+            "label": "Polymorphic owner - should be skipped"
+        },
+        {
+            "source_db": "my",
+            "source_table": "minimal",
+            "source_field": "mid",
+            "target_db": "my",
+            "target_table": "other",
+            "target_field": "oid"
+        }
+    ]
+}

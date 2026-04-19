@@ -1,0 +1,52 @@
+{
+    "name": "detain/dbrel-data-php",
+    "description": "PHP backend data provider for database relationship visualization. Collects customer data across multiple databases and computes relationship matches for consumption by dbrel-viz.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "database",
+        "visualization",
+        "relationships",
+        "schema",
+        "mysql",
+        "erd",
+        "dataviz"
+    ],
+    "authors": [
+        {
+            "name": "Joe Huss",
+            "email": "detain@interserver.net"
+        }
+    ],
+    "homepage": "https://github.com/detain/dbrel-data-php",
+    "support": {
+        "issues": "https://github.com/detain/dbrel-data-php/issues",
+        "source": "https://github.com/detain/dbrel-data-php"
+    },
+    "require": {
+        "php": ">=7.4",
+        "ext-json": "*",
+        "ext-mysqli": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "DbRel\\Data\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DbRel\\Data\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:coverage": "phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable"
+}
